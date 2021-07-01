@@ -113,3 +113,8 @@ yamlFiles:
         query: spec.ports[0].port
         value: "%v"  # +workload:guestBookServicePort:default=80:type=int
         action: merge
+      - name: Add in service type
+        query: spec.type
+        value: LoadBalancer
+        onMissing:
+          action: inject
