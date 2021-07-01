@@ -1,0 +1,115 @@
+---
+# YAML Overlay Tool Instruction set
+commonOverlays:
+  - name: Set namespace for namespaced resources
+    query: metadata.namespace
+    value: guestbook-application  # +workload:namespace:type=string
+    action: merge
+    onMissing:
+      action: inject
+    documentQuery:
+      - conditions:
+          - query: kind
+            value: Deployment
+      - conditions:
+          - query: kind
+            value: Service
+  - name: Pre-pend all labels and selectors
+    query:
+      - metadata.labels
+      - spec.selector.matchLabels
+      - spec.template.metadata.labels
+      - spec.selector
+    value:
+      app.kubernetes.io/%k: "%v"
+    action: merge
+yamlFiles:
+  - name: Guestbook application namespace
+    path: ../.source-manifests/guestbook-namespace.yaml
+    overlays:
+      - name: Add workload marker for configurable namespace
+        query: metadata.name
+        value: guestbook-application  # +workload:namespace:type=string
+        action: merge
+  - name: Redis leader deployment
+    path: ../.source-manifests/redis-leader-deployment.yaml
+    overlays:
+      - name: Configurable replicas
+        query: spec.replicas
+        value: "%v"  # +workload:redisLeaderReplicas:default=1:type=int
+        action: merge
+      - name: Configurable container image
+        query: spec.template.spec.containers[?(@.name == 'leader')].image
+        value: "%v"  # +workload:redisLeaderImage:type=string
+        action: merge
+      - name: Configurable port
+        query: spec.template.spec.containers[?(@.name == 'leader')].ports[0].containerPort
+        value: "%v"  # +workload:redisLeaderContainerPort:default=6379:type=int
+        action: merge
+  - name: Redis leader service
+    path: ../.source-manifests/redis-leader-service.yaml
+    overlays:
+      - name: Configurable targetPort
+        query: spec.ports[0].targetPort
+        value: "%v"  # +workload:redisLeaderContainerPort:default=6379:type=int
+        action: merge
+      - name: Configurable port
+        query: spec.ports[0].port
+        value: "%v" # +workload:redisLeaderServicePort:default=6379:type=int
+        action: merge
+  - name: Redis follower deployment
+    path: ../.source-manifests/redis-follower-deployment.yaml
+    overlays:
+      - name: Configurable replicas
+        query: spec.replicas
+        value: "%v"  # +workload:redisFollowerReplicas:default=2:type=int
+        action: merge
+      - name: Configurable container image
+        query: spec.template.spec.containers[?(@.name == 'follower')].image
+        value: "%v"  # +workload:redisFollowerImage:type=string
+        action: merge
+      - name: Configurable container port
+        query: spec.template.spec.containers[?(@.name == 'follower')].ports[0].containerPort
+        value: "%v"  # +workload:redisFollowerContainerPort:default=6379:type=int
+        action: merge
+  - name: Redis follower service
+    path: ../.source-manifests/redis-follower-service.yaml
+    overlays:
+      - name: Configurable targetPort
+        query: spec.ports[0].targetPort
+        value: 6379  # +workload:redisFollowerContainerPort:default=6379:type=int
+        action: merge
+        onMissing:
+          action: inject
+      - name: Configurable port
+        query: spec.ports[0].port
+        value: "%v"  # +workload:redisFollowerServicePort:default=6379:type=int
+        action: merge
+  - name: Frontend deployment
+    path: ../.source-manifests/frontend-deployment.yaml
+    overlays:
+      - name: Configurable replicas
+        query: spec.replicas
+        value: "%v"  # +workload:guestBookReplicas:default=3:type=int
+        action: merge
+      - name: Configurable container image
+        query: spec.template.spec.containers[?(@.name == 'php-redis')].image
+        value: "%v"  # +workload:guestBookImage:type=string
+        action: merge
+      - name: Configurable container port
+        query: spec.template.spec.containers[?(@.name == 'php-redis')].ports[0].containerPort
+        value: "%v"  # +workload:guestBookContainerPort:default=80:type=int
+        action: merge
+  - name: Frontend service
+    path: ../.source-manifests/frontend-service.yaml
+    overlays:
+      - name: Configurable targetPort
+        query: spec.ports[0].targetPort
+        value: 80  # +workload:guestBookContainerPort:default=80:type=int
+        action: merge
+        onMissing:
+          action: inject
+      - name: Configurable port
+        query: spec.ports[0].port
+        value: "%v"  # +workload:guestBookServicePort:default=80:type=int
+        action: merge
