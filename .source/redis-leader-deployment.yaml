@@ -1,0 +1,32 @@
+---
+# SOURCE: https://cloud.google.com/kubernetes-engine/docs/tutorials/guestbook
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-leader
+  labels:
+    app.kubernetes.io/app: redis
+    app.kubernetes.io/role: leader
+    app.kubernetes.io/tier: backend
+  namespace: guestbook-application # +workload:namespace:type=string
+spec:
+  replicas: 1 # +workload:redisLeaderReplicas:default=1:type=int
+  selector:
+    matchLabels:
+      app.kubernetes.io/app: redis
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/app: redis
+        app.kubernetes.io/role: leader
+        app.kubernetes.io/tier: backend
+    spec:
+      containers:
+        - name: leader
+          image: docker.io/redis:6.0.5 # +workload:redisLeaderImage:type=string
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          ports:
+            - containerPort: 6379 # +workload:redisLeaderContainerPort:default=6379:type=int
