@@ -1,0 +1,20 @@
+---
+name: guestbook
+kind: StandaloneWorkload
+spec:
+  domain: demo.com
+  apiGroup: apps
+  apiVersion: v1
+  apiKind: Guestbook
+  clusterScoped: true
+  companionCLIRootcmd:
+    name: gbkctl
+    description: Deploys a sample kubernetes guestbook application
+resources:
+  - ./.source/guestbook-namespace.yaml
+  - ./.source/redis-leader-deployment.yaml
+  - ./.source/redis-leader-service.yaml
+  - ./.source/redis-follower-deployment.yaml
+  - ./.source/redis-follower-service.yaml
+  - ./.source/frontend-deployment.yaml
+  - ./.source/frontend-service.yaml
