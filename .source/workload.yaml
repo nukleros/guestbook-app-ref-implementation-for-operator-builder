@@ -6,7 +6,7 @@ spec:
   apiGroup: apps
   apiVersion: v1
   apiKind: Guestbook
-  clusterScoped: true
+  clusterScoped: false
   companionCLIRootcmd:
     name: gbkctl
     description: Deploys a sample kubernetes guestbook application
