@@ -50,7 +50,7 @@ yamlFiles:
     overlays:
       - name: Configurable replicas
         query: spec.replicas
-        value: "%v"  # +workload:redisLeaderReplicas:default=1:type=int
+        value: !!int "%v"  # +workload:redisLeaderReplicas:default=1:type=int
         action: merge
       - name: Configurable container image
         query: spec.template.spec.containers[?(@.name == 'leader')].image
@@ -58,25 +58,25 @@ yamlFiles:
         action: merge
       - name: Configurable port
         query: spec.template.spec.containers[?(@.name == 'leader')].ports[0].containerPort
-        value: "%v"  # +workload:redisLeaderContainerPort:default=6379:type=int
+        value: !!int "%v"  # +workload:redisLeaderContainerPort:default=6379:type=int
         action: merge
   - name: Redis leader service
     path: ../.source-manifests/redis-leader-service.yaml
     overlays:
       - name: Configurable targetPort
         query: spec.ports[0].targetPort
-        value: "%v"  # +workload:redisLeaderContainerPort:default=6379:type=int
+        value: !!int "%v"  # +workload:redisLeaderContainerPort:default=6379:type=int
         action: merge
       - name: Configurable port
         query: spec.ports[0].port
-        value: "%v" # +workload:redisLeaderServicePort:default=6379:type=int
+        value: !!int "%v" # +workload:redisLeaderServicePort:default=6379:type=int
         action: merge
   - name: Redis follower deployment
     path: ../.source-manifests/redis-follower-deployment.yaml
     overlays:
       - name: Configurable replicas
         query: spec.replicas
-        value: "%v"  # +workload:redisFollowerReplicas:default=2:type=int
+        value: !!int "%v"  # +workload:redisFollowerReplicas:default=2:type=int
         action: merge
       - name: Configurable container image
         query: spec.template.spec.containers[?(@.name == 'follower')].image
@@ -84,7 +84,7 @@ yamlFiles:
         action: merge
       - name: Configurable container port
         query: spec.template.spec.containers[?(@.name == 'follower')].ports[0].containerPort
-        value: "%v"  # +workload:redisFollowerContainerPort:default=6379:type=int
+        value: !!int "%v"  # +workload:redisFollowerContainerPort:default=6379:type=int
         action: merge
   - name: Redis follower service
     path: ../.source-manifests/redis-follower-service.yaml
@@ -96,14 +96,14 @@ yamlFiles:
         action: merge
       - name: Configurable port
         query: spec.ports[0].port
-        value: "%v"  # +workload:redisFollowerServicePort:default=6379:type=int
+        value: !!int "%v"  # +workload:redisFollowerServicePort:default=6379:type=int
         action: merge
   - name: Frontend deployment
     path: ../.source-manifests/frontend-deployment.yaml
     overlays:
       - name: Configurable replicas
         query: spec.replicas
-        value: "%v"  # +workload:guestBookReplicas:default=3:type=int
+        value: !!int "%v"  # +workload:guestBookReplicas:default=3:type=int
         action: merge
       - name: Configurable container image
         query: spec.template.spec.containers[?(@.name == 'php-redis')].image
@@ -111,7 +111,7 @@ yamlFiles:
         action: merge
       - name: Configurable container port
         query: spec.template.spec.containers[?(@.name == 'php-redis')].ports[0].containerPort
-        value: "%v"  # +workload:guestBookContainerPort:default=80:type=int
+        value: !!int "%v"  # +workload:guestBookContainerPort:default=80:type=int
         action: merge
   - name: Frontend service
     path: ../.source-manifests/frontend-service.yaml
@@ -125,7 +125,7 @@ yamlFiles:
           action: inject
       - name: Configurable port
         query: spec.ports[0].port
-        value: "%v"  # +workload:guestBookServicePort:default=80:type=int
+        value: !!int "%v"  # +workload:guestBookServicePort:default=80:type=int
         action: merge
       - name: Add in service type
         query: spec.type
