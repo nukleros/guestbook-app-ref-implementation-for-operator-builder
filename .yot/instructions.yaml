@@ -76,11 +76,10 @@ yamlFiles:
     path: ../.source-manifests/redis-follower-service.yaml
     overlays:
       - name: Configurable targetPort
-        query: spec.ports[0].targetPort
-        value: 6379  # +workload:redisFollowerContainerPort:default=6379:type=int
+        query: spec.ports[0]
+        value: 
+          targetPort: 6379  # +workload:redisFollowerContainerPort:default=6379:type=int
         action: merge
-        onMissing:
-          action: inject
       - name: Configurable port
         query: spec.ports[0].port
         value: "%v"  # +workload:redisFollowerServicePort:default=6379:type=int
@@ -104,8 +103,9 @@ yamlFiles:
     path: ../.source-manifests/frontend-service.yaml
     overlays:
       - name: Configurable targetPort
-        query: spec.ports[0].targetPort
-        value: 80  # +workload:guestBookContainerPort:default=80:type=int
+        query: spec.ports[0]
+        value:
+          targetPort: 80  # +workload:guestBookContainerPort:default=80:type=int
         action: merge
         onMissing:
           action: inject
