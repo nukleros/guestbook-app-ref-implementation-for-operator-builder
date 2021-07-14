@@ -69,7 +69,7 @@ yamlFiles:
         action: merge
       - name: Configurable port
         query: spec.ports[0].port
-        value: !!int "%v" # +workload:redisLeaderServicePort:default=6379:type=int
+        value: !!int "%v"  # +workload:redisLeaderServicePort:default=6379:type=int
         action: merge
   - name: Redis follower deployment
     path: ../.source-manifests/redis-follower-deployment.yaml
