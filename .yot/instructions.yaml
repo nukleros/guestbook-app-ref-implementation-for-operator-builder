@@ -14,15 +14,29 @@ commonOverlays:
       - conditions:
           - query: kind
             value: Service
-  - name: Pre-pend all labels and selectors
+  - name: Pre-pend all labels and selectors on services
     query:
       - metadata.labels
-      - spec.selector.matchLabels
-      - spec.template.metadata.labels
       - spec.selector
     value:
       app.kubernetes.io/%k: "%v"
     action: merge
+    documentQuery:
+      - conditions:
+          - query: kind
+            value: Service
+  - name: Pre-pend all labels and selectors on deployments
+    query:
+      - metadata.labels
+      - spec.selector.matchLabels
+      - spec.template.metadata.labels
+    value:
+      app.kubernetes.io/%k: "%v"
+    action: merge
+    documentQuery:
+      - conditions:
+          - query: kind
+            value: Deployment
 yamlFiles:
   - name: Guestbook application namespace
     path: ../.source-manifests/guestbook-namespace.yaml
