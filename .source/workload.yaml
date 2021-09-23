@@ -2,12 +2,13 @@
 name: guestbook
 kind: StandaloneWorkload
 spec:
-  domain: demo.com
-  apiGroup: apps
-  apiVersion: v1
-  apiKind: Guestbook
-  clusterScoped: false
-  companionCLIRootcmd:
+  api:
+    domain: demo.com
+    group: apps
+    version: v1
+    kind: Guestbook
+    clusterScoped: true
+  companionCliRootcmd:
     name: gbkctl
     description: Deploys a sample kubernetes guestbook application
   resources:
