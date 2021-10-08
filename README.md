@@ -1,4 +1,4 @@
-# Guestbook Operator Sample Application
+# Guestbook Application Reference Implementation for Operator Builder
 
 This repository uses two projects to construct an operator, based on the Kubernetes sample [guestbook application](https://kubernetes.io/docs/tutorials/stateless-application/guestbook/).
   * [YAML Overlay Tool](https://github.com/vmware-tanzu-labs/yaml-overlay-tool)
