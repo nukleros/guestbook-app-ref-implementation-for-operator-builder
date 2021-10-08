@@ -11,7 +11,7 @@ This repository uses two projects to construct an operator, based on the Kuberne
 
 * Clone the repository
 
-* Overlay the source manifests: `cd .yot; yot -i instructions.yaml`  
+* Overlay the source manifests: `cd .yot; yot -i yot.yaml`  
 
 * Initialize the repository for Operator Builder:
 
