@@ -54,4 +54,4 @@ kubectl apply -f config/samples
 
 You should now see the guestbook application get deployed into your cluster.
 
-Please reference the [operator-builder](https://github.com/nukleros/operator-builder) for all the details on building operators.
+Please reference the [operator-builder](https://github.com/nukleros/operator-builder) documentation for all the details on building more complex operators.
