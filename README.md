@@ -16,6 +16,7 @@ This repository uses two projects to construct an operator, based on the Kuberne
 * Initialize the repository for Operator Builder:
 
 ```bash
+# assuming you're in .yot still
 cd ..
 go mod init guestbook-app
 
@@ -27,7 +28,6 @@ operator-builder init \
 * Build the guestbook operator:
 
 ```bash
-# assuming you're in .yot still
 operator-builder create api \
     --workload-config .source/workload.yaml \
     --controller \
