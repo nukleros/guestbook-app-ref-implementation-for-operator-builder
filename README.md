@@ -16,6 +16,9 @@ This repository uses two projects to construct an operator, based on the Kuberne
 * Initialize the repository for Operator Builder:
 
 ```bash
+cd ..
+go mod init guestbook-app
+
 operator-builder init \
     --workload-config .source/workload.yaml \
     --skip-go-version-check
@@ -25,7 +28,6 @@ operator-builder init \
 
 ```bash
 # assuming you're in .yot still
-cd ..
 operator-builder create api \
     --workload-config .source/workload.yaml \
     --controller \
@@ -44,7 +46,7 @@ make install
 make run
 ```
 
-* Install the sample CR to your Kubernetes cluster:
+* Since the controller is occupying your terminal, you'll want to start up another terminal to install the sample CR to your Kubernetes cluster:
 
 ```bash
 kubectl apply -f config/samples
@@ -52,4 +54,4 @@ kubectl apply -f config/samples
 
 You should now see the guestbook application get deployed into your cluster.
 
-Please reference the [operator-builder](https://github.com/vmware-tanzu-labs/operator-builder) for all the details on building operators.
+Please reference the [operator-builder](https://github.com/nukleros/operator-builder) for all the details on building operators.
