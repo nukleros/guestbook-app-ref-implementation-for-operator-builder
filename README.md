@@ -3,7 +3,7 @@
 This repository uses two projects to construct an operator, based on the Kubernetes sample [guestbook application](https://kubernetes.io/docs/tutorials/stateless-application/guestbook/).
   * [YAML Overlay Tool](https://github.com/vmware-tanzu-labs/yaml-overlay-tool)
     Used for taking the source manifests found in the Kubernetes documentation and injecting operator-builder workload markers to prepare for building an operator.
-  * [Operator Builder](https://github.com/vmware-tanzu-labs/operator-builder)
+  * [Operator Builder](https://github.com/nukleros/operator-builder)
     Used for constructing a fully functional operator from source Kubernetes manifests that have been marked up for CRD customization.
 
 
